@@ -1,6 +1,6 @@
 import { runGeneration, report } from './common.js';
 
-export const help = `Usage: jsonforge zod <input> [options]
+export const help = `Usage: jsoncrafter zod <input> [options]
 
 Generate Zod schemas from JSON.
 

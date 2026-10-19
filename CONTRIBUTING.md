@@ -7,8 +7,8 @@ Thanks for helping out. Bug reports with a small JSON sample that reproduces the
 Requires Node.js 22 or newer.
 
 ```bash
-git clone https://github.com/Sameera-MHK/jsonforge-cli.git
-cd jsonforge-cli
+git clone https://github.com/Sameera-MHK/jsoncrafter.git
+cd jsoncrafter
 npm install
 npm test
 ```
@@ -16,14 +16,14 @@ npm test
 Run the CLI from the checkout:
 
 ```bash
-node bin/jsonforge.js types fixtures/user.json --output /tmp/user.types.ts
-node bin/jsonforge.js mock fixtures
+node bin/jsoncrafter.js types fixtures/user.json --output /tmp/user.types.ts
+node bin/jsoncrafter.js mock fixtures
 ```
 
 ## Project layout
 
 ```
-bin/jsonforge.js            executable entry point
+bin/jsoncrafter.js            executable entry point
 src/cli.js                  command dispatch, help, error reporting
 src/commands/               one file per command + shared input/output flow
 src/core/parse-json.js      JSON parsing and top-level validation
@@ -49,7 +49,7 @@ fixtures/                   example fixtures
 
 1. `npm ci && npm test` passes locally and CI is green on all supported Node.js versions.
 2. Update `version` in `package.json` and move the `Unreleased` entries in `CHANGELOG.md` under the new version with today's date.
-3. Check the npm name is still free: `npm view jsonforge-cli` should return `404` before the first release.
+3. Check the npm name is still free: `npm view jsoncrafter` should return `404` before the first release.
 4. Inspect the tarball: `npm pack --dry-run` — only `bin/`, `src/`, `README.md`, `LICENSE`, `CHANGELOG.md` and `package.json` should be listed.
 5. `npm audit` reports no unresolved issues.
 6. Commit (`chore(release): vX.Y.Z`), tag (`git tag vX.Y.Z`), push the commit and the tag.

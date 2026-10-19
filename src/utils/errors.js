@@ -1,8 +1,8 @@
 // Errors that the CLI knows how to report without a stack trace.
-export class JsonForgeError extends Error {
+export class JsonCrafterError extends Error {
   constructor(message, { code = 'ERROR', hint, exitCode = 1 } = {}) {
     super(message);
-    this.name = 'JsonForgeError';
+    this.name = 'JsonCrafterError';
     this.code = code;
     this.hint = hint;
     this.exitCode = exitCode;
@@ -10,7 +10,7 @@ export class JsonForgeError extends Error {
 }
 
 // Wrong flags, missing arguments, invalid option values.
-export class UsageError extends JsonForgeError {
+export class UsageError extends JsonCrafterError {
   constructor(message, { code = 'USAGE', hint } = {}) {
     super(message, { code, hint, exitCode: 2 });
     this.name = 'UsageError';

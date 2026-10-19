@@ -2,7 +2,7 @@ import http from 'node:http';
 import https from 'node:https';
 import dns from 'node:dns';
 import net from 'node:net';
-import { JsonForgeError, UsageError } from '../utils/errors.js';
+import { JsonCrafterError, UsageError } from '../utils/errors.js';
 import { parseJson } from './parse-json.js';
 
 export const DEFAULT_TIMEOUT_MS = 10_000;
@@ -70,7 +70,7 @@ export async function fetchJson(input, options = {}) {
 
     if (res.status >= 300 && res.status < 400 && res.location) {
       if (redirects >= MAX_REDIRECTS) {
-        throw new JsonForgeError(`Too many redirects from ${displayUrl(url)}.`, { code: 'TOO_MANY_REDIRECTS' });
+        throw new JsonCrafterError(`Too many redirects from ${displayUrl(url)}.`, { code: 'TOO_MANY_REDIRECTS' });
       }
       const next = toUrl(res.location, url);
       // Never forward credentials to a different origin.
@@ -80,7 +80,7 @@ export async function fetchJson(input, options = {}) {
     }
 
     if (res.status < 200 || res.status >= 300) {
-      throw new JsonForgeError(`Request to ${displayUrl(url)} failed with HTTP ${res.status}.`, {
+      throw new JsonCrafterError(`Request to ${displayUrl(url)} failed with HTTP ${res.status}.`, {
         code: 'HTTP_ERROR',
         hint: res.status === 401 || res.status === 403 ? 'Pass credentials with --header "Authorization: ..."' : undefined,
       });
@@ -88,7 +88,7 @@ export async function fetchJson(input, options = {}) {
 
     const type = String(res.contentType || '');
     if (!/^application\/([a-z0-9.+-]*\+)?json\b/i.test(type)) {
-      throw new JsonForgeError(
+      throw new JsonCrafterError(
         `Response from ${displayUrl(url)} is not JSON (content-type: ${type || 'none'}).`,
         { code: 'NOT_JSON', hint: 'Only application/json responses are accepted.' },
       );
@@ -125,7 +125,7 @@ function checkUrl(url, allowPrivateNetwork) {
 }
 
 function blockedError(host) {
-  return new JsonForgeError(`Refusing to fetch from private or local address (${host}).`, {
+  return new JsonCrafterError(`Refusing to fetch from private or local address (${host}).`, {
     code: 'BLOCKED_ADDRESS',
     hint: 'Use --allow-private-network to fetch from localhost or your local network.',
   });
@@ -148,18 +148,18 @@ function request(url, { headers, timeoutMs, maxBytes, allowPrivateNetwork }) {
   return new Promise((resolve, reject) => {
     const req = client.request(url, {
       method: 'GET',
-      headers: { accept: 'application/json', 'user-agent': 'jsonforge-cli', ...headers },
+      headers: { accept: 'application/json', 'user-agent': 'jsoncrafter', ...headers },
       lookup: allowPrivateNetwork ? undefined : safeLookup,
     });
 
     // Settles the promise once and tears the request down.
     const fail = (err) => {
       clearTimeout(timer);
-      reject(err instanceof JsonForgeError ? err : networkError(err, url));
+      reject(err instanceof JsonCrafterError ? err : networkError(err, url));
       req.destroy();
     };
     const timer = setTimeout(() => {
-      fail(new JsonForgeError(`Request to ${displayUrl(url)} timed out after ${timeoutMs} ms.`, { code: 'TIMEOUT' }));
+      fail(new JsonCrafterError(`Request to ${displayUrl(url)} timed out after ${timeoutMs} ms.`, { code: 'TIMEOUT' }));
     }, timeoutMs);
 
     req.on('error', fail);
@@ -177,7 +177,7 @@ function request(url, { headers, timeoutMs, maxBytes, allowPrivateNetwork }) {
       }
 
       const tooLarge = () =>
-        new JsonForgeError(`Response from ${displayUrl(url)} exceeds the ${maxBytes} byte limit.`, {
+        new JsonCrafterError(`Response from ${displayUrl(url)} exceeds the ${maxBytes} byte limit.`, {
           code: 'RESPONSE_TOO_LARGE',
         });
       if (Number(res.headers['content-length']) > maxBytes) return fail(tooLarge());
@@ -207,7 +207,7 @@ function networkError(err, url) {
     ECONNREFUSED: `Connection refused by ${where}.`,
     ECONNRESET: `Connection reset by ${where}.`,
   };
-  return new JsonForgeError(messages[err.code] || `Request to ${where} failed: ${err.message}`, {
+  return new JsonCrafterError(messages[err.code] || `Request to ${where} failed: ${err.message}`, {
     code: 'NETWORK_ERROR',
   });
 }

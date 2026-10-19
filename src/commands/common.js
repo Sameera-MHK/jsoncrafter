@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
-import { JsonForgeError, UsageError } from '../utils/errors.js';
+import { JsonCrafterError, UsageError } from '../utils/errors.js';
 import { parseJson } from '../core/parse-json.js';
 import { fetchJson, isUrl, parseHeaders, DEFAULT_TIMEOUT_MS } from '../core/fetch-json.js';
 import { buildModel, toTypeName, validateTypeName } from '../core/infer-types.js';
@@ -86,7 +86,7 @@ export async function readInput(input, values, stdin) {
     const message = err.code === 'ENOENT' ? `File not found: ${input}`
       : err.code === 'EISDIR' ? `Expected a file but got a directory: ${input}`
       : `Could not read ${input}: ${err.message}`;
-    throw new JsonForgeError(message, { code: 'READ_FAILED' });
+    throw new JsonCrafterError(message, { code: 'READ_FAILED' });
   }
   const base = path.basename(input).replace(/\.json$/i, '');
   return {
@@ -126,7 +126,7 @@ export async function runGeneration(formats, args, stdin, { outputIsDir = false 
   if (!values.force) {
     for (const out of outputs) {
       if (await exists(out.path)) {
-        throw new JsonForgeError(`${out.path} already exists.`, {
+        throw new JsonCrafterError(`${out.path} already exists.`, {
           code: 'FILE_EXISTS',
           hint: 'Use --force to overwrite it, or choose another path with --output.',
         });

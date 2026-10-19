@@ -1,7 +1,7 @@
 import http from 'node:http';
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { JsonForgeError } from '../utils/errors.js';
+import { JsonCrafterError } from '../utils/errors.js';
 import { parseJson } from '../core/parse-json.js';
 
 // Reads every .json fixture once at startup. Requests are only matched
@@ -16,7 +16,7 @@ export async function loadRoutes(target) {
   try {
     stat = await fs.stat(target);
   } catch {
-    throw new JsonForgeError(`Fixture path not found: ${target}`, {
+    throw new JsonCrafterError(`Fixture path not found: ${target}`, {
       code: 'FIXTURES_NOT_FOUND',
       hint: 'Pass a .json file or a directory that contains .json files.',
     });
@@ -25,26 +25,26 @@ export async function loadRoutes(target) {
   const files = [];
   if (stat.isFile()) {
     if (!target.endsWith('.json')) {
-      throw new JsonForgeError(`Fixture file must end in .json: ${target}`, { code: 'INVALID_FIXTURE' });
+      throw new JsonCrafterError(`Fixture file must end in .json: ${target}`, { code: 'INVALID_FIXTURE' });
     }
     files.push({ file: target, rel: path.basename(target) });
   } else if (stat.isDirectory()) {
     await walk(target, '', files);
   } else {
-    throw new JsonForgeError(`Fixture path is not a regular file or directory: ${target}`, {
+    throw new JsonCrafterError(`Fixture path is not a regular file or directory: ${target}`, {
       code: 'INVALID_FIXTURE',
     });
   }
 
   if (files.length === 0) {
-    throw new JsonForgeError(`No .json fixtures found in ${target}`, { code: 'NO_FIXTURES' });
+    throw new JsonCrafterError(`No .json fixtures found in ${target}`, { code: 'NO_FIXTURES' });
   }
 
   const routes = new Map();
   for (const { file, rel } of files) {
     const route = toRoute(rel);
     if (routes.has(route)) {
-      throw new JsonForgeError(`Both ${routes.get(route).file} and ${file} map to ${route}.`, {
+      throw new JsonCrafterError(`Both ${routes.get(route).file} and ${file} map to ${route}.`, {
         code: 'DUPLICATE_ROUTE',
       });
     }
@@ -127,15 +127,15 @@ export function listen(server, { port, host }) {
     const onError = (err) => {
       if (err.code === 'EADDRINUSE') {
         reject(
-          new JsonForgeError(`Port ${port} is already in use on ${host}.`, {
+          new JsonCrafterError(`Port ${port} is already in use on ${host}.`, {
             code: 'PORT_IN_USE',
             hint: 'Stop the other process or choose another port with --port.',
           }),
         );
       } else if (err.code === 'EACCES') {
-        reject(new JsonForgeError(`Permission denied to listen on port ${port}.`, { code: 'PORT_DENIED' }));
+        reject(new JsonCrafterError(`Permission denied to listen on port ${port}.`, { code: 'PORT_DENIED' }));
       } else {
-        reject(new JsonForgeError(`Could not start server: ${err.message}`, { code: 'LISTEN_FAILED' }));
+        reject(new JsonCrafterError(`Could not start server: ${err.message}`, { code: 'LISTEN_FAILED' }));
       }
     };
     server.once('error', onError);

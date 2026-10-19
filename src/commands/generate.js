@@ -1,6 +1,6 @@
 import { runGeneration, report } from './common.js';
 
-export const help = `Usage: jsonforge generate <input> [options]
+export const help = `Usage: jsoncrafter generate <input> [options]
 
 Generate both TypeScript types and Zod schemas from JSON.
 

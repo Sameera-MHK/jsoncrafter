@@ -1,6 +1,6 @@
 import { runGeneration, report } from './common.js';
 
-export const help = `Usage: jsonforge types <input> [options]
+export const help = `Usage: jsoncrafter types <input> [options]
 
 Generate TypeScript types from JSON.
 

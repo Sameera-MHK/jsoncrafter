@@ -6,11 +6,11 @@ import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const BIN = path.join(ROOT, 'bin', 'jsonforge.js');
+const BIN = path.join(ROOT, 'bin', 'jsoncrafter.js');
 const TSC = path.join(ROOT, 'node_modules', 'typescript', 'bin', 'tsc');
 
 export async function tempDir(t) {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'jsonforge-test-'));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'jsoncrafter-test-'));
   t.after(() => fs.rm(dir, { recursive: true, force: true }));
   return dir;
 }

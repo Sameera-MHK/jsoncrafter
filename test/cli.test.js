@@ -18,7 +18,7 @@ async function withUserFile(t) {
 test('--help and --version exit with 0', async () => {
   const help = await runCli(['--help']);
   assert.equal(help.code, 0);
-  assert.match(help.stdout, /Usage: jsonforge <command>/);
+  assert.match(help.stdout, /Usage: jsoncrafter <command>/);
 
   const noArgs = await runCli([]);
   assert.equal(noArgs.code, 0);
@@ -31,7 +31,7 @@ test('--help and --version exit with 0', async () => {
   for (const command of ['types', 'zod', 'generate', 'mock']) {
     const result = await runCli([command, '--help']);
     assert.equal(result.code, 0);
-    assert.match(result.stdout, new RegExp(`Usage: jsonforge ${command}`));
+    assert.match(result.stdout, new RegExp(`Usage: jsoncrafter ${command}`));
   }
 });
 

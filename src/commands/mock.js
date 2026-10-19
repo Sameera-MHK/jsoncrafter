@@ -2,7 +2,7 @@ import { UsageError } from '../utils/errors.js';
 import { parseCommandArgs, parseInteger } from './common.js';
 import { loadRoutes, createMockServer, listen } from '../mock/server.js';
 
-export const help = `Usage: jsonforge mock <file-or-directory> [options]
+export const help = `Usage: jsoncrafter mock <file-or-directory> [options]
 
 Serve JSON fixtures as a local read-only REST API.
 
@@ -35,7 +35,7 @@ const LOOPBACK = new Set(['127.0.0.1', 'localhost', '::1']);
 export async function run(args, io) {
   const { values, positionals } = parseCommandArgs(args, OPTIONS);
   if (positionals.length !== 1) {
-    throw new UsageError('Expected one fixture file or directory.', { hint: 'Example: jsonforge mock ./fixtures' });
+    throw new UsageError('Expected one fixture file or directory.', { hint: 'Example: jsoncrafter mock ./fixtures' });
   }
   const port = values.port === undefined ? 4000 : parseInteger(values.port, '--port', { min: 0, max: 65535 });
   const delay = values.delay === undefined ? 0 : parseInteger(values.delay, '--delay', { min: 0, max: 60_000 });
