@@ -1,0 +1,21 @@
+[
+  {
+    "id": 1,
+    "name": "Ada Lovelace",
+    "email": "ada@example.com",
+    "isActive": true,
+    "address": { "city": "London", "zip": "N1 9GU" },
+    "tags": ["admin", "author"],
+    "manager": null
+  },
+  {
+    "id": 2,
+    "name": "Alan Turing",
+    "email": "alan@example.com",
+    "isActive": false,
+    "address": { "city": "Manchester", "zip": null },
+    "tags": [],
+    "manager": { "id": 1, "name": "Ada Lovelace" },
+    "nickname": "Prof"
+  }
+]

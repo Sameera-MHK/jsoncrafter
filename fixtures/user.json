@@ -1,0 +1,8 @@
+{
+  "id": 1,
+  "name": "Ada Lovelace",
+  "email": "ada@example.com",
+  "roles": ["admin"],
+  "profile": { "bio": "Mathematician", "website": null },
+  "createdAt": "2024-01-01T00:00:00.000Z"
+}

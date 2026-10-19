@@ -1,0 +1,46 @@
+{
+  "name": "jsonforge-cli",
+  "version": "0.1.0",
+  "description": "Turn JSON into TypeScript types, Zod schemas, and a local mock REST API.",
+  "homepage": "https://github.com/Sameera-MHK/jsonforge-cli#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sameera-MHK/jsonforge-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Sameera-MHK/jsonforge-cli/issues"
+  },
+  "type": "module",
+  "bin": {
+    "jsonforge": "bin/jsonforge.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "keywords": [
+    "json",
+    "typescript",
+    "zod",
+    "mock",
+    "rest",
+    "api",
+    "cli",
+    "codegen"
+  ],
+  "author": "Sameera-MHK",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "7.0.2",
+    "zod": "4.6.7"
+  }
+}
