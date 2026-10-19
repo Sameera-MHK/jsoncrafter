@@ -37,7 +37,7 @@
     "cli",
     "codegen"
   ],
-  "author": "Sameera-MHK",
+  "author": "sameera_mhk (https://github.com/Sameera-MHK)",
   "license": "MIT",
   "devDependencies": {
     "typescript": "7.0.2",

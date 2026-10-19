@@ -1,10 +1,35 @@
 # jsonforge-cli
 
+[![CI](https://github.com/Sameera-MHK/jsonforge-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/Sameera-MHK/jsonforge-cli/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![Node.js >= 22](https://img.shields.io/badge/node-%3E%3D22-brightgreen.svg)
+
 Turn JSON into TypeScript types, Zod schemas, and a local mock REST API — from a file, a URL, or stdin, with no configuration file.
 
 ```bash
 npx jsonforge-cli types user.json
 ```
+
+**Owner:** [sameera_mhk](https://github.com/Sameera-MHK)
+
+## Contents
+
+- [Why](#why)
+- [Installation](#installation)
+- [Quick start](#quick-start)
+- [JSON to TypeScript](#json-to-typescript)
+- [JSON to Zod](#json-to-zod)
+- [Generate both](#generate-both)
+- [Mock REST API](#mock-rest-api)
+- [URL and stdin input](#url-and-stdin-input)
+- [Options](#options)
+- [Module format](#module-format)
+- [Security considerations](#security-considerations)
+- [Known limitations](#known-limitations)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [Roadmap](#roadmap)
+- [License](#license)
 
 ## Why
 
@@ -191,12 +216,12 @@ Press Ctrl+C to stop.
 
 ### Route mapping
 
-| File                         | Route          |
-| ---------------------------- | -------------- |
-| `fixtures/users.json`        | `GET /users`   |
-| `fixtures/api/posts.json`    | `GET /api/posts` |
-| `fixtures/index.json`        | `GET /`        |
-| `fixtures/api/index.json`    | `GET /api`     |
+| File | Route |
+| --- | --- |
+| `fixtures/users.json` | `GET /users` |
+| `fixtures/api/posts.json` | `GET /api/posts` |
+| `fixtures/index.json` | `GET /` |
+| `fixtures/api/index.json` | `GET /api` |
 
 - You can pass a single `.json` file instead of a directory.
 - Trailing slashes and query strings are ignored (`/users/?page=2` → `/users`).
@@ -328,9 +353,11 @@ There is no configuration file.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+Issues and pull requests are welcome at [github.com/Sameera-MHK/jsonforge-cli](https://github.com/Sameera-MHK/jsonforge-cli/issues). See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, project layout and the release checklist.
 
 ```bash
+git clone https://github.com/Sameera-MHK/jsonforge-cli.git
+cd jsonforge-cli
 npm install
 npm test
 ```
@@ -345,4 +372,4 @@ npm test
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE) © 2026 sameera_mhk
